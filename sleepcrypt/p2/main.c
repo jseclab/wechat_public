@@ -94,7 +94,7 @@ VOID SleepOb(PVOID ImageBase, DWORD Size, DWORD TimeOut)
 
     Vp1.Rip = (ULONG_PTR)VirtualProtect;
     Vp1.Rcx = (ULONG_PTR)ImageBase;
-    Vp1.R8 = PAGE_EXECUTE_READ;
+    Vp1.R8 = PAGE_EXECUTE_READWRITE;
     Vp1.R9 = (ULONG_PTR)&OldPt;
     Vp1.Rdx = Size;
     Vp1.Rsp -= 0x8;
@@ -108,6 +108,7 @@ VOID SleepOb(PVOID ImageBase, DWORD Size, DWORD TimeOut)
     // SetEvent(StartEvtHd);
     // WaitForSingleObject(EndEvtHd, INFINITE);
     SignalObjectAndWait(StartEvtHd, EndEvtHd, INFINITE, FALSE);
+    TerminateThread(ThreadHd, 0);
     CloseHandle(ThreadHd);
 }
 
