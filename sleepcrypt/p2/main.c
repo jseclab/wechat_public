@@ -110,6 +110,8 @@ VOID SleepOb(PVOID ImageBase, DWORD Size, DWORD TimeOut)
     SignalObjectAndWait(StartEvtHd, EndEvtHd, INFINITE, FALSE);
     TerminateThread(ThreadHd, 0);
     CloseHandle(ThreadHd);
+    CloseHandle(StartEvtHd);
+    CloseHandle(EndEvtHd);
 }
 
 int main() {
