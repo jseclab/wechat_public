@@ -217,12 +217,17 @@ int RunCoff(char* funcName,unsigned char* content,unsigned char* argData,int arg
 
 			printf("[+] Alloc Memory For Sections With Size 0x%zx Succeed At Address 0x%p\n", allSection, ptrSection);
 
+			size_t idx = 0;
+
 			for (i = 0; i < coffFileHdr->NumberOfSections; i++)
 			{
 				coff_sec_header_t* secHdr = procSecHeader(content, i);
 
 				if (secHdr->PointerToRawData != 0)
-					memcpy((char*)ptrSection + i * ALIGNPAGE, content + secHdr->PointerToRawData, secHdr->SizeOfRawData);
+				{
+					memcpy((char*)ptrSection + idx * ALIGNPAGE, content + secHdr->PointerToRawData, secHdr->SizeOfRawData);
+					idx++;
+				}
 
 				secMapPtr[i] = (char*)ptrSection + secMapOffset[i]; //获取每个节的内存地址
 			}
